@@ -1,5 +1,5 @@
 {
-  "id": "94ed365d-3204-47a1-9199-9fc8293ee813",
+  "id": "70297725-76d1-4128-a03f-6349efe28a9c",
   "prevId": "57397557-02d1-4abf-b3e0-54e9c944f53c",
   "version": "7",
   "dialect": "postgresql",
@@ -258,9 +258,9 @@
           "primaryKey": false,
           "notNull": true
         },
-        "teacher_id": {
-          "name": "teacher_id",
-          "type": "text",
+        "class_id": {
+          "name": "class_id",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true
         }
@@ -285,7 +285,7 @@
           "name": "enrollments_class_id_idx",
           "columns": [
             {
-              "expression": "teacher_id",
+              "expression": "class_id",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -311,12 +311,12 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "enrollments_teacher_id_classes_id_fk": {
-          "name": "enrollments_teacher_id_classes_id_fk",
+        "enrollments_class_id_classes_id_fk": {
+          "name": "enrollments_class_id_classes_id_fk",
           "tableFrom": "enrollments",
           "tableTo": "classes",
           "columnsFrom": [
-            "teacher_id"
+            "class_id"
           ],
           "columnsTo": [
             "id"
@@ -326,11 +326,11 @@
         }
       },
       "compositePrimaryKeys": {
-        "enrollments_student_id_teacher_id_pk": {
-          "name": "enrollments_student_id_teacher_id_pk",
+        "enrollments_student_id_class_id_pk": {
+          "name": "enrollments_student_id_class_id_pk",
           "columns": [
             "student_id",
-            "teacher_id"
+            "class_id"
           ]
         }
       },
@@ -340,7 +340,7 @@
           "nullsNotDistinct": false,
           "columns": [
             "student_id",
-            "teacher_id"
+            "class_id"
           ]
         }
       },

@@ -1,18 +1,17 @@
-import { relations } from "drizzle-orm";
 import {
-  pgTable,
   integer,
-  varchar,
-  timestamp,
   jsonb,
   pgEnum,
+  pgTable,
   text,
+  timestamp,
   unique,
+  varchar,
   index,
   primaryKey,
 } from "drizzle-orm/pg-core";
+import { relations } from "drizzle-orm";
 import { user } from "./auth";
-import { table } from "node:console";
 
 export const classStatusEnum = pgEnum("class_status", [
   "active",
@@ -79,7 +78,7 @@ export const enrollments = pgTable(
     studentId: text("student_id")
       .notNull()
       .references(() => user.id, { onDelete: "cascade" }),
-    classId: text("teacher_id")
+    classId: integer("class_id")
       .notNull()
       .references(() => classes.id, { onDelete: "cascade" }),
   },
