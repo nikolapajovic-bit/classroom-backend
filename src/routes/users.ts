@@ -62,4 +62,24 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/:id", async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    const [userRecord] = await db
+      .select()
+      .from(user)
+      .where(eq(user.id, userId));
+
+    if (!userRecord) {
+      return res.status(404).json({ error: "User not found." });
+    }
+
+    res.status(200).json({ data: userRecord });
+  } catch (e) {
+    console.error("GET /user/:id error:", e);
+    res.status(500).json({ error: "Failed to fetch user." });
+  }
+});
+
 export default router;
