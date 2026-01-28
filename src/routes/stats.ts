@@ -6,6 +6,7 @@ import { classes, departments, subjects, user } from "../db/schema/index.js";
 
 const router = express.Router();
 
+// Overview counts for core entities
 router.get("/overview", async (req, res) => {
   try {
     const [
@@ -40,12 +41,13 @@ router.get("/overview", async (req, res) => {
         classes: classesCount[0]?.count ?? 0,
       },
     });
-  } catch (e) {
-    console.error("GET /stats/overview error: ", e);
-    res.status(500).json({ error: "Failed to fetch overview stats." });
+  } catch (error) {
+    console.error("GET /stats/overview error:", error);
+    res.status(500).json({ error: "Failed to fetch overview stats" });
   }
 });
 
+// Latest activity summaries
 router.get("/latest", async (req, res) => {
   try {
     const { limit = 5 } = req.query;
@@ -81,18 +83,22 @@ router.get("/latest", async (req, res) => {
         latestTeachers,
       },
     });
-  } catch (e) {
-    console.error("GET /stats/latest error: ", e);
-    res.status(500).json({ error: "Failed to fetch latest stats." });
+  } catch (error) {
+    console.error("GET /stats/latest error:", error);
+    res.status(500).json({ error: "Failed to fetch latest stats" });
   }
 });
 
+// Aggregates for charts
 router.get("/charts", async (req, res) => {
   try {
     const [usersByRole, subjectsByDepartment, classesBySubject] =
       await Promise.all([
         db
-          .select({ role: user.role, total: sql<number>`count(*)` })
+          .select({
+            role: user.role,
+            total: sql<number>`count(*)`,
+          })
           .from(user)
           .groupBy(user.role),
         db
@@ -122,9 +128,9 @@ router.get("/charts", async (req, res) => {
         classesBySubject,
       },
     });
-  } catch (e) {
-    console.error("GET /stats/charts error: ", e);
-    res.status(500).json({ error: "Failed to fetch chart stats." });
+  } catch (error) {
+    console.error("GET /stats/charts error:", error);
+    res.status(500).json({ error: "Failed to fetch chart stats" });
   }
 });
 
