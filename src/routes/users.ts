@@ -49,6 +49,7 @@ router.get("/", async (req, res) => {
     const usersList = await db
       .select({ ...getTableColumns(user) })
       .from(user)
+      .where(whereClause)
       .orderBy(desc(user.createdAt))
       .limit(limitPerPage)
       .offset(offset);
